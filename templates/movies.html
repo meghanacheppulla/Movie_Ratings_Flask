@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Rate the movies · Reel Votes{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <p class="hero__eyebrow">Tonight's lineup</p>
+  <h1 class="hero__title">Cast your vote</h1>
+  <p class="hero__sub">Welcome, {{ username }}. Pick 👍 or 👎 for each title below, then submit.</p>
+</section>
+
+<form method="POST" action="{{ url_for('vote') }}">
+  <div class="movie-grid">
+    {% for m in movies %}
+    <div class="movie-card">
+      <div class="movie-card__poster">
+        <span class="movie-card__number">{{ loop.index }}</span>
+      </div>
+      <h3 class="movie-card__title">{{ m['name'] }}</h3>
+
+      <div class="vote-toggle">
+        <input
+          type="radio"
+          name="movie_{{ m['id'] }}"
+          value="like"
+          id="like_{{ m['id'] }}"
+          {% if my_votes.get(m['id']) == 'like' %}checked{% endif %}>
+        <label class="vote-btn vote-btn--like" for="like_{{ m['id'] }}">👍 Like</label>
+
+        <input
+          type="radio"
+          name="movie_{{ m['id'] }}"
+          value="dislike"
+          id="dislike_{{ m['id'] }}"
+          {% if my_votes.get(m['id']) == 'dislike' %}checked{% endif %}>
+        <label class="vote-btn vote-btn--dislike" for="dislike_{{ m['id'] }}">👎 Dislike</label>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="submit-row">
+    <button class="btn btn--primary" type="submit">Submit ratings</button>
+  </div>
+</form>
+
+<section class="results">
+  <p class="results__eyebrow">Live tally</p>
+  <h2 class="results__title">How everyone voted</h2>
+
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th>Movie name</th>
+        <th>👍 Positive</th>
+        <th>👎 Negative</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in tally %}
+      <tr>
+        <td>{{ row.name }}</td>
+        <td class="results-table__like">{{ row.likes }}</td>
+        <td class="results-table__dislike">{{ row.dislikes }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{% endblock %}

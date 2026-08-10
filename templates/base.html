@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Reel Votes{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="film-strip film-strip--top"></div>
+
+<header class="topbar">
+  <a class="brand" href="{{ url_for('index') }}">
+    <span class="brand__mark">REEL</span><span class="brand__mark brand__mark--accent">VOTES</span>
+  </a>
+  {% if session.get('user_id') %}
+  <nav class="topbar__nav">
+    <span class="topbar__user">Signed in as <strong>{{ session.get('username') }}</strong></span>
+    <a class="btn btn--ghost" href="{{ url_for('logout') }}">Log out</a>
+  </nav>
+  {% endif %}
+</header>
+
+<main class="page">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-stack">
+        {% for category, message in messages %}
+          <div class="flash flash--{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<div class="film-strip film-strip--bottom"></div>
+</body>
+</html>

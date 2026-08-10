@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Log in · Reel Votes{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <p class="auth-card__eyebrow">Now showing</p>
+    <h1 class="auth-card__title">Log in</h1>
+    <p class="auth-card__sub">Rate tonight's picks and see what everyone else thinks.</p>
+
+    <form method="POST" class="form">
+      <label class="field">
+        <span class="field__label">Username</span>
+        <input class="field__input" type="text" name="username" autocomplete="username" required>
+      </label>
+      <label class="field">
+        <span class="field__label">Password</span>
+        <input class="field__input" type="password" name="password" autocomplete="current-password" required>
+      </label>
+      <button class="btn btn--primary btn--block" type="submit">Log in</button>
+    </form>
+
+    <p class="auth-card__foot">New here? <a href="{{ url_for('signup') }}">Create an account</a></p>
+  </div>
+</div>
+{% endblock %}
